@@ -37,12 +37,19 @@ def plat_gen(platforms, all_sprites):
         p = Platform()
 
         valid = False
-
+        attempts = 0
         while not valid:
             p = Platform()
             p.rect.center = (random.randrange(0, WIDTH - width),
                              random.randrange(-50, 0))
             valid = check(p, platforms)
+
+            if not valid:
+                attempts += 1
+                print(attempts)
+            if attempts == MAX_ATTEMPTS:
+                attempts = 0
+                valid = True
 
         platforms.add(p)
         all_sprites.add(p)
@@ -89,6 +96,9 @@ def main():
                 entity.kill()
                 time.sleep(1)
                 displaysurface.fill((255, 0, 0))
+                f = pygame.font.SysFont("Verdana", 50)
+                g = f.render("GAME OVER", True, (255, 255, 255))
+                displaysurface.blit(g, (10, 10))
                 pygame.display.update()
                 time.sleep(1)
                 pygame.quit()

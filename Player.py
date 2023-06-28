@@ -52,6 +52,9 @@ class Player(pygame.sprite.Sprite):
             if hits[0].point:
                 hits[0].point = False
                 self.score += 1
+            if hits[0].moving and hits[0].speed:
+                self.acc.x = hits[0].speed
+                self.pos += self.vel + self.acc
             self.pos.y = hits[0].rect.top + 1
             self.vel.y = 0
             self.jumping = False
