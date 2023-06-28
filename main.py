@@ -16,6 +16,7 @@ FPS = 60
 NUM_PLATFORMS = 7
 MIN_DISTANCE = 50
 MAX_ATTEMPTS = 10
+COLORS = ["green", "blue", "yellow", "purple"]
 
 
 def check(platform, groupies):
@@ -31,15 +32,15 @@ def check(platform, groupies):
         return True
 
 
-def plat_gen(platforms, all_sprites):
+def plat_gen(platforms, all_sprites,color):
     while len(platforms) < NUM_PLATFORMS:
         width = random.randrange(50, 100)
-        p = Platform()
+        p = Platform(color)
 
         valid = False
         attempts = 0
         while not valid:
-            p = Platform()
+            p = Platform(color)
             p.rect.center = (random.randrange(0, WIDTH - width),
                              random.randrange(-50, 0))
             valid = check(p, platforms)
@@ -61,7 +62,8 @@ def main():
     pygame.display.set_caption("Game")
     displaysurface = pygame.display.set_mode((WIDTH, HEIGHT))
     p1 = Player(vec)
-    pt1 = Platform(base=True)
+    color = COLORS[random.randint(0,len(COLORS)-1)]
+    pt1 = Platform(color,base=True)
 
     all_sprites, platforms = pygame.sprite.Group(), pygame.sprite.Group()
     all_sprites.add(pt1)
@@ -69,7 +71,7 @@ def main():
     all_sprites.add(p1)
 
     for i in range(random.randint(NUM_PLATFORMS, NUM_PLATFORMS + 2)):
-        pl = Platform()
+        pl = Platform(color)
         if not check(pl, platforms):
             i -= 1
             continue
@@ -77,6 +79,8 @@ def main():
         all_sprites.add(pl)
 
     while True:
+        if not (p1.score % 20) and p1.score != 0:
+            color = COLORS[random.randint(0, len(COLORS) - 1)]
         if pygame.key.get_pressed()[pygame.K_ESCAPE]:
             sys.exit()
         for event in pygame.event.get():
@@ -121,7 +125,7 @@ def main():
                 if plat.rect.top >= HEIGHT:
                     plat.kill()
 
-        plat_gen(platforms, all_sprites)
+        plat_gen(platforms, all_sprites,color)
         for platform in platforms:
             platform.move()
 
