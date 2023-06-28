@@ -17,6 +17,7 @@ class Player(pygame.sprite.Sprite):
         self.surf.fill((128, 255, 40))
         self.rect = self.surf.get_rect(center=(10, 420))
         self.vec = vec
+        self.score = 0
 
         self.pos = vec((10, 385))
         self.vel = vec(0, 0)
@@ -48,6 +49,9 @@ class Player(pygame.sprite.Sprite):
     def update(self, platforms):
         hits = pygame.sprite.spritecollide(self, platforms, False)
         if hits and self.vel.y > 0 and self.pos.y < hits[0].rect.bottom:
+            if hits[0].point:
+                hits[0].point = False
+                self.score += 1
             self.pos.y = hits[0].rect.top + 1
             self.vel.y = 0
             self.jumping = False
@@ -61,4 +65,3 @@ class Player(pygame.sprite.Sprite):
     def cancel_jump(self):
         if self.jumping and self.vel.y < MIN_VELOCITY:
             self.vel.y = MIN_VELOCITY
-
