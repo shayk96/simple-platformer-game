@@ -53,6 +53,9 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     p1.jump(platforms)
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_SPACE:
+                    p1.cancel_jump()
 
         displaysurface.fill((0, 0, 0))
         p1.move()

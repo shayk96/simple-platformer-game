@@ -5,6 +5,9 @@ WIDTH = 400
 ACC = 0.5
 FRIC = -0.12
 
+VELOCITY = -15
+MIN_VELOCITY = -3
+
 
 class Player(pygame.sprite.Sprite):
 
@@ -18,6 +21,8 @@ class Player(pygame.sprite.Sprite):
         self.pos = vec((10, 385))
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
+
+        self.jumping = False
 
     def move(self):
         self.acc = self.vec(0, 0.5)
@@ -42,11 +47,18 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, platforms):
         hits = pygame.sprite.spritecollide(self, platforms, False)
-        if hits and self.vel.y > 0:
+        if hits and self.vel.y > 0 and self.pos.y < hits[0].rect.bottom:
             self.pos.y = hits[0].rect.top + 1
             self.vel.y = 0
+            self.jumping = False
 
     def jump(self, platforms):
         hits = pygame.sprite.spritecollide(self, platforms, False)
-        if hits:
-           self.vel.y = -15
+        if hits and not self.jumping:
+            self.jumping = True
+            self.vel.y = VELOCITY
+
+    def cancel_jump(self):
+        if self.jumping and self.vel.y < MIN_VELOCITY:
+            self.vel.y = MIN_VELOCITY
+
