@@ -49,15 +49,14 @@ class Player(pygame.sprite.Sprite):
     def update(self, platforms):
         hits = pygame.sprite.spritecollide(self, platforms, False)
         if hits and self.vel.y > 0 and self.pos.y < hits[0].rect.bottom:
-            if hits[0].point:
-                hits[0].point = False
-                self.score += 1
             if hits[0].moving and hits[0].speed:
                 self.acc.x = hits[0].speed
                 self.pos += self.vel + self.acc
             self.pos.y = hits[0].rect.top + 1
             self.vel.y = 0
             self.jumping = False
+            if hits[0].trampoline:
+                self.vel.y = VELOCITY*2
 
     def jump(self, platforms):
         hits = pygame.sprite.spritecollide(self, platforms, False)

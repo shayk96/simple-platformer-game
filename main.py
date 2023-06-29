@@ -47,7 +47,6 @@ def plat_gen(platforms, all_sprites,color):
 
             if not valid:
                 attempts += 1
-                print(attempts)
             if attempts == MAX_ATTEMPTS:
                 attempts = 0
                 valid = True
@@ -123,6 +122,7 @@ def main():
             for plat in platforms:
                 plat.rect.y += abs(p1.vel.y)
                 if plat.rect.top >= HEIGHT:
+                    p1.score += 1
                     plat.kill()
 
         plat_gen(platforms, all_sprites,color)

@@ -6,7 +6,7 @@ WIDTH = 400
 
 
 class Platform(pygame.sprite.Sprite):
-    def __init__(self,color, base=False):
+    def __init__(self, color, base=False):
         super().__init__()
         if base:
             self.surf = pygame.Surface((WIDTH, 20))
@@ -14,6 +14,7 @@ class Platform(pygame.sprite.Sprite):
             self.rect = self.surf.get_rect(center=(WIDTH / 2, HEIGHT - 10))
             self.point = False
             self.moving = False
+            self.trampoline = False
         else:
             self.surf = pygame.Surface((random.randint(50, 100), 12))
             self.surf.fill(color)
@@ -22,6 +23,9 @@ class Platform(pygame.sprite.Sprite):
             self.point = True
             self.moving = True
             self.speed = random.randint(-1, 1)
+            self.trampoline = random.randint(0, 1)
+            if self.trampoline:
+                self.surf.fill("pink")
 
     def move(self):
         if self.moving:
