@@ -5,7 +5,7 @@ in order to run the game:
 2. install pygame
 3. run main
 
-4. # Platform Jumper Game Documentation
+# Platform Jumper Game Documentation
 
 ## Overview
 
